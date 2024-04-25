@@ -1,11 +1,11 @@
 import torch
 import sounddevice as sd
 
-language = 'ru'
-model_id = 'v4_ru'
-sample_rate = 48000
-speaker = 'aidar'
-device = torch.device('cpu')
+language = 'ru' # язык
+model_id = 'v4_ru' # идентификатор модели для синтеза речи
+sample_rate = 48000 # частота дискретизации аудио
+speaker = 'aidar' # вариант голоса для синтеза речи.
+device = torch.device('cpu') # устройство, на котором будет работать модель 
 
 model, _ = torch.hub.load(repo_or_dir='snakers4/silero-models',
                           model='silero_tts',
