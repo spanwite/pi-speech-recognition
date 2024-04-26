@@ -22,4 +22,5 @@ def handle_speech(text: str):
     say_text('Я вас не понял. Повторите команду')
 
 if __name__ == '__main__':
+    say_text('Ассистент запущен и готов к выполнению ваших команд')
     listen_commands(handle_speech)
