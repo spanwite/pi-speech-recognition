@@ -1,9 +1,8 @@
-from core.speech_to_text import listen_commands
-from core.text_to_speech import say_text
+from speech_to_text import listen_commands
 from features.light_control import light_control
+from rapidfuzz import fuzz
 
-assistant_names = ('ассистент', 'помощник')
-assistant_features = [*light_control]
+features = [*light_control]
 
 def handle_speech(text: str):
     if not text: 
@@ -11,16 +10,18 @@ def handle_speech(text: str):
     
     print(f'Распознано: "{text}"')
 
-    if not any(name in text for name in assistant_names):
-        return
-    
-    for action, commands in assistant_features:
-        if any(command in text for command in commands):
-            action()
-            return
+    res_percent = 0
+    res_action = None
 
-    say_text('Я вас не понял. Повторите команду')
+    for action, aliases in features:
+        percent = fuzz.ratio(text, aliases)
+        if percent > res_percent:
+            res_percent = percent
+            res_action = action
 
+    if res_percent > 70:
+        if not res_action is None:
+            res_action()
+            
 if __name__ == '__main__':
-    say_text('Ассистент запущен и готов к выполнению ваших команд')
     listen_commands(handle_speech)
